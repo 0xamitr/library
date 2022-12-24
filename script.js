@@ -14,7 +14,7 @@ function Book(title, author, pages, read) {
         this.read = "READ";
     }
     else{
-        this.read = "NOTREAD"
+        this.read = "NOT READ"
     }
 }
 let title = document.getElementById("title");
@@ -33,9 +33,9 @@ function addBookToLibrary() {
     if (form.style.display != "none"){
         form.style.display = "none";
     }
-    demo.innerHTML += `<div id = "card${numcard}"><p>${myLibrary[i].title}</p>
-                       <p>${myLibrary[i].author}</p>
-                       <p>${myLibrary[i].pages}</p>
+    demo.innerHTML += `<div id = "card${numcard}"><p>Title: ${myLibrary[i].title}</p>
+                       <p>Author: ${myLibrary[i].author}</p>
+                       <p>Pages: ${myLibrary[i].pages}</p>
                        <button class = "butcommon" data-number1 = "${i}">${myLibrary[i].read}</button>
                        <button class = "common" data-number0 = "${i}">Remove</button></div>`
                        numcard++;
@@ -43,7 +43,7 @@ function addBookToLibrary() {
     if(myLibrary[i].read == "READ"){
         x.style.backgroundColor = "rgb(1, 154, 1)";
     }
-    else if(myLibrary[i].read == "NOTREAD"){
+    else if(myLibrary[i].read == "NOT READ"){
         x.style.backgroundColor = "red";
     }
  
