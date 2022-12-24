@@ -10,7 +10,12 @@ function Book(title, author, pages, read) {
     this.title = title;
     this.author = author;
     this.pages = pages;
-    this.read = read;
+    if (read == true){
+        this.read = "READ";
+    }
+    else{
+        this.read = "NOTREAD"
+    }
 }
 let title = document.getElementById("title");
 let author = document.getElementById("author");
@@ -19,7 +24,11 @@ let read = document.getElementById("read");
 let button = document.getElementById("button");
 
 function addBookToLibrary() {
-    let newbook = new Book(title.value, author.value, pages.value, read.value);
+    if (title.value == "" || author.value == "" || pages.value == ""){
+        alert("Fields cant be empty!");
+        return;
+    }
+    let newbook = new Book(title.value, author.value, pages.value, read.checked);
     myLibrary.push(newbook);
     if (form.style.display != "none"){
         form.style.display = "none";
@@ -27,12 +36,18 @@ function addBookToLibrary() {
     demo.innerHTML += `<div id = "card${numcard}"><p>${myLibrary[i].title}</p>
                        <p>${myLibrary[i].author}</p>
                        <p>${myLibrary[i].pages}</p>
-                       <p>${myLibrary[i].read}</p>
+                       <button class = "butcommon" data-number1 = "${i}">${myLibrary[i].read}</button>
                        <button class = "common" data-number0 = "${i}">Remove</button></div>`
                        numcard++;
+    let x = document.querySelector(`[data-number1 = "${i}"]`);
+    if(myLibrary[i].read == "READ"){
+        x.style.backgroundColor = "rgb(1, 154, 1)";
+    }
+    else if(myLibrary[i].read == "NOTREAD"){
+        x.style.backgroundColor = "red";
+    }
  
     let data = document.querySelectorAll('.common');
-    let tool = 0;
     data.forEach(btn => {
         btn.addEventListener('click', () => {
             let parentDiv = btn.parentNode;
@@ -55,6 +70,22 @@ function addBookToLibrary() {
         });
     });
     i++;
+
+    let data2 = document.querySelectorAll('.butcommon');
+    data2.forEach(btn => {
+        btn.addEventListener('click', () => {
+            if (myLibrary[btn.dataset.number1].read == "READ"){
+                myLibrary[btn.dataset.number1].read = "NOTREAD";
+                btn.style.backgroundColor = "red";
+            }
+            else if (myLibrary[btn.dataset.number1].read == "NOTREAD"){
+                myLibrary[btn.dataset.number1].read = "READ";
+                btn.style.backgroundColor = "rgb(1, 154, 1)";
+            }
+            btn.innerHTML = `${myLibrary[btn.dataset.number1].read}`;
+        });
+    });
+
 }
 
 function handleForm(event) { event.preventDefault(); } 
@@ -63,9 +94,10 @@ button.addEventListener("click", addBookToLibrary)
 
 defbutton.addEventListener("click", ()=>{
     if (form.style.display == "none"){
-        form.style.display = "block";
+        form.style.display = "flex";
     }
     else{
         form.style.display = "none";
     }
+    form.reset();
 });
